@@ -12,13 +12,16 @@
         <br>
         <label for="text">Text:</label>
         <input type="text" id="text" name="text">
+        <br>
+        <button type="submit">Submit</button>
     </form>
     <p id="base64Result"></p>
 
     <script>
-        document.getElementById("text").addEventListener("input", function() {
+        document.getElementById("base64Form").addEventListener("submit", function(event) {
+            event.preventDefault();
             const url = document.getElementById("url").value;
-            const text = this.value;
+            const text = document.getElementById("text").value;
             const base64Text = btoa(text); // Encode text to Base64
 
             fetch(url, {
