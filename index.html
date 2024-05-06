@@ -1,37 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Base64 Decoder</title>
-  <style>
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encoder</title>
 </head>
 <body>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchText = urlParams.get('text');
 
-
-  
-  <script>
-
-const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
-const text = urlParams.get('text');
-
-
-const base64Text = btoa(text);
-
-
-fetch('http://localhost:3000/api/base64', {
-  method: 'POST',
-  body: JSON.stringify({ data: base64Text }),
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
-.then(response => response.json())
-.then(data => console.log(data))
-.catch(error => console.error('Error:', error));
-
-  </script>
+        if (searchText) {
+            fetch('/encode?text=' + encodeURIComponent(searchText))
+                .then(response => response.text())
+                .then(base64Text => {
+                    alert('Base64 Text: ' + base64Text);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
 </body>
 </html>
