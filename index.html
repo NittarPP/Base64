@@ -21,7 +21,7 @@ const text = urlParams.get('text');
 const base64Text = btoa(text);
 
 
-fetch('https://nittarpp.github.io/Base64-', {
+fetch('http://localhost:3000/api/base64', {
   method: 'POST',
   body: JSON.stringify({ data: base64Text }),
   headers: {
