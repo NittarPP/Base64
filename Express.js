@@ -1,19 +1,36 @@
-const express = require('express');
-const app = express();
+const http = require('http');
 
-// กำหนดเมธอด GET สำหรับเส้นทาง /encode
-app.get('/encode', (req, res) => {
-    // ดึงข้อความจาก URL parameter
-    const text = req.query.text;
-
-    // เข้ารหัสข้อความเป็น Base64
-    const base64Text = Buffer.from(text).toString('base64');
-
-    // ส่งข้อความ Base64 กลับไปยังผู้ใช้
-    res.send(base64Text);
+const server = http.createServer((req, res) => {
+    if (req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString(); // Convert Buffer to string
+        });
+        req.on('end', () => {
+            try {
+                const data = JSON.parse(body);
+                const base64Text = data.base64Text;
+                console.log("Received Base64 text:", base64Text);
+                // ทำอย่างไรก็ตามที่คุณต้องการกับ Base64 text ที่ได้รับ
+                // เช่น บันทึกลงในฐานข้อมูล หรือทำการประมวลผลต่อไป
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'text/plain');
+                res.end('Data received successfully.');
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+                res.statusCode = 400;
+                res.setHeader('Content-Type', 'text/plain');
+                res.end('Error parsing JSON.');
+            }
+        });
+    } else {
+        res.statusCode = 405; // Method Not Allowed
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('Method not allowed.');
+    }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+const port = process.env.PORT || 3000; // เลือก port ที่ต้องการให้เซิร์ฟเวอร์รันอยู่
+server.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
