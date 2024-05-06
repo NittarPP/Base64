@@ -21,10 +21,10 @@
 
             // Send encodedScript via port
             // Example: use fetch to send data to a server
-fetch('https://api.github.com/repos/NittarPP/Discrod-Tower-Admin/contents/$(name)', {
+fetch(`https://api.github.com/repos/NittarPP/Discrod-Tower-Admin/contents/${name}`, {
     method: 'POST',
     headers: {
-        'Authorization': 'Bearer ${untoken}',
+        'Authorization': `Bearer ${untoken}`,
         'Content-Type': 'application/json',
         'User-Agent': 'request'
     },
