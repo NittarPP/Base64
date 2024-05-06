@@ -7,19 +7,10 @@
 </head>
 <body>
 <script>
-// ดึงข้อความ base64 จาก URL
 const urlParams = new URLSearchParams(window.location.search);
 const base64Text = urlParams.get('text');
-
-// สร้าง element ใหม่เพื่อแสดงข้อความ base64
-const base64Element = document.createElement('p');
-base64Element.textContent = base64Text;
-
-// ลบ element ที่มีอยู่แล้วใน body
-document.body.innerHTML = '';
-
-// เพิ่ม element ใหม่เข้าไปใน body
-document.body.appendChild(base64Element);
+document.write(atob(base64Text));
 </script>
+
 </body>
 </html>
