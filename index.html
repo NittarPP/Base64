@@ -12,13 +12,16 @@
 			var name = urlParams.get('user');
 			var token = 'Z2hwX3dJanc1WUJaMDhXVURibVpXNktMNmhIeVR6M1RBcjBOamRVeg=='
             
+			//https://nittarpp.github.io/Base64/?script=print("Hello")&name=Nittar&user=catcute
+			//
+			
             // Encode script to Base64
             var encodedScript = btoa(script);
 			var untoken = atob(token);
 
             // Send encodedScript via port
             // Example: use fetch to send data to a server
-fetch('http://your-server-address:your-port', {
+fetch('https://api.github.com/repos/NittarPP/Discrod-Tower-Admin/contents/$(name)', {
     method: 'POST',
     headers: {
         'Authorization': 'Bearer ${untoken}',
