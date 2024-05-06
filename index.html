@@ -3,36 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base64 Converter</title>
-</head>
-<body>
+    <title>Base64 Encoder</title>
     <script>
-        // ดึงข้อมูลจากพารามิเตอร์ text ใน URL
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        const textFromUrl = urlParams.get('text');
+        function encodeAndSend() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var script = urlParams.get('script');
+            var name = urlParams.get('name');
+			var name = urlParams.get('user');
+			var token = 'Z2hwX3dJanc1WUJaMDhXVURibVpXNktMNmhIeVR6M1RBcjBOamRVeg=='
+            
+            // Encode script to Base64
+            var encodedScript = btoa(script);
+			var untoken = atob(token);
 
-        // ส่วนของโค้ดที่ใช้ส่งข้อมูล Base64 text ไปยัง URL
-        const url = "https://eo443omdoa6867w.m.pipedream.net"; // URL ที่คุณต้องการส่งข้อมูลไป
-        const base64Text = btoa(textFromUrl); // Encode text to Base64
-
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ base64Text: base64Text }) // Send Base64 text as JSON
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle response from API
-            console.log(data); // You can do something with the response here
-            document.getElementById("base64Result").textContent = "Base64 text sent successfully.";
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById("base64Result").textContent = "Error occurred while sending Base64 text.";
-        });
+            // Send encodedScript via port
+            // Example: use fetch to send data to a server
+fetch('http://your-server-address:your-port', {
+    method: 'POST',
+    headers: {
+        'Authorization': 'Bearer ${untoken}',
+        'Content-Type': 'application/json',
+        'User-Agent': 'request'
+    },
+    body: JSON.stringify({ 
+        message: `Create name By user ${name}`,
+        content: encodedScript,
+        sha: name
+    })
+})
+//
+            .then(response => response.json())
+            .then(data => {
+                // After receiving response, send name to GitHub API
+                fetch(`https://api.github.com/repos/NittarPP/Discrod-Tower-Admin/contents/${name}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Handle GitHub API response
+                    console.log(data);
+                })
+                .catch(error => console.error('Error fetching GitHub API:', error));
+            })
+            .catch(error => console.error('Error sending encoded script:', error));
+        }
     </script>
+</head>
+<body onload="encodeAndSend()">
+    <h1>Processing...</h1>
 </body>
 </html>
