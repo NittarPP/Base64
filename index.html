@@ -17,8 +17,8 @@
     function sendData() {
       const text = document.getElementById('text-input').value;
 
-      // ส่งข้อมูล Base64 ไปยัง API URL ผ่านเมธอด POST ด้วย Fetch API
-      fetch('YOUR_API_URL_HERE', {
+
+      fetch('http://localhost:3000/api/base64', {
         method: 'POST',
         body: JSON.stringify({ data: btoa(text) }),
         headers: {
@@ -27,7 +27,7 @@
       })
       .then(response => response.json())
       .then(data => {
-        // แสดงผลลัพธ์จาก API ในส่วนของ 'result' element
+
         document.getElementById('result').innerText = data.result;
       })
       .catch(error => console.error('Error:', error));
