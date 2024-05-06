@@ -51,7 +51,7 @@
       try {
         const decodedText = atob(base64Input);
         document.getElementById('decodedText').innerText = decodedText;
-        const apiUrl = 'https://nittarpp.github.io/Base64-?api=Tower'; // กำหนด URL ของ API ที่ต้องการใช้
+        const apiUrl = 'https://nittarpp.github.io/Base64-'; // กำหนด URL ของ API ที่ต้องการใช้
         sendToAPI(apiUrl, decodedText);
       } catch (error) {
         document.getElementById('decodedText').innerText = 'Invalid Base64 data!';
