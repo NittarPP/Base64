@@ -5,82 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Base64 Decoder</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-    .container {
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    textarea {
-      width: 100%;
-      height: 150px;
-      margin-bottom: 10px;
-      padding: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    #decodedText {
-      margin-top: 20px;
-      white-space: pre-line;
-    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Base64 Decoder</h1>
-    <textarea id="base64Input" placeholder="Enter Base64 encoded data..."></textarea>
-    <button onclick="decodeAndSend()">Decode & Send</button>
-    <div id="decodedText"></div>
-  </div>
-  <script>
-    function decodeAndSend() {
-      const base64Input = document.getElementById('base64Input').value;
-      try {
-        const decodedText = atob(base64Input);
-        document.getElementById('decodedText').innerText = decodedText;
-        const apiUrl = 'https://nittarpp.github.io/Base64-'; // กำหนด URL ของ API ที่ต้องการใช้
-        sendToAPI(apiUrl, decodedText);
-      } catch (error) {
-        document.getElementById('decodedText').innerText = 'Invalid Base64 data!';
-      }
-    }
 
-    function sendToAPI(apiUrl, decodedText) {
-      fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text: decodedText })
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to send data to API');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Response from API:', data);
-        // Handle API response if needed
-      })
-      .catch(error => {
-        console.error('Error sending data to API:', error);
-        // Handle errors if needed
-      });
-    }
+
+  
+  <script>
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const text = urlParams.get('text');
+
+
+const base64Text = btoa(text);
+
+
+fetch('https://nittarpp.github.io/Base64-', {
+  method: 'POST',
+  body: JSON.stringify({ data: base64Text }),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+
   </script>
 </body>
 </html>
