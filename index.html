@@ -7,28 +7,31 @@
 </head>
 <body>
     <script>
-        document.getElementById("text").addEventListener("input", function() {
-            const url = "https://eo443omdoa6867w.m.pipedream.net"; // URL ที่คุณต้องการส่งข้อมูลไป
-            const text = this.value;
-            const base64Text = btoa(text); // Encode text to Base64
+        // ดึงข้อมูลจากพารามิเตอร์ text ใน URL
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const textFromUrl = urlParams.get('text');
 
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ base64Text: base64Text }) // Send Base64 text as JSON
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle response from API
-                console.log(data); // You can do something with the response here
-                document.getElementById("base64Result").textContent = "Base64 text sent successfully.";
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                document.getElementById("base64Result").textContent = "Error occurred while sending Base64 text.";
-            });
+        // ส่วนของโค้ดที่ใช้ส่งข้อมูล Base64 text ไปยัง URL
+        const url = "https://eo443omdoa6867w.m.pipedream.net"; // URL ที่คุณต้องการส่งข้อมูลไป
+        const base64Text = btoa(textFromUrl); // Encode text to Base64
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ base64Text: base64Text }) // Send Base64 text as JSON
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle response from API
+            console.log(data); // You can do something with the response here
+            document.getElementById("base64Result").textContent = "Base64 text sent successfully.";
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById("base64Result").textContent = "Error occurred while sending Base64 text.";
         });
     </script>
 </body>
