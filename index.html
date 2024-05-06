@@ -42,18 +42,44 @@
   <div class="container">
     <h1>Base64 Decoder</h1>
     <textarea id="base64Input" placeholder="Enter Base64 encoded data..."></textarea>
-    <button onclick="decodeBase64()">Decode</button>
+    <button onclick="decodeAndSend()">Decode & Send</button>
     <div id="decodedText"></div>
   </div>
   <script>
-    function decodeBase64() {
+    function decodeAndSend() {
       const base64Input = document.getElementById('base64Input').value;
       try {
         const decodedText = atob(base64Input);
         document.getElementById('decodedText').innerText = decodedText;
+        const apiUrl = 'https://nittarpp.github.io/Base64-?api=Tower'; // กำหนด URL ของ API ที่ต้องการใช้
+        sendToAPI(apiUrl, decodedText);
       } catch (error) {
         document.getElementById('decodedText').innerText = 'Invalid Base64 data!';
       }
+    }
+
+    function sendToAPI(apiUrl, decodedText) {
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: decodedText })
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to send data to API');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Response from API:', data);
+        // Handle API response if needed
+      })
+      .catch(error => {
+        console.error('Error sending data to API:', error);
+        // Handle errors if needed
+      });
     }
   </script>
 </body>
