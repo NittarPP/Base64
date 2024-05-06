@@ -8,9 +8,10 @@
 <body>
 <script>
 const urlParams = new URLSearchParams(window.location.search);
-const base64Text = urlParams.get('text');
-document.write(atob(base64Text));
-</script>
+const text = urlParams.get('text');
+const base64Text = btoa(text);
 
+document.write(base64Text);
+</script>
 </body>
 </html>
